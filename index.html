@@ -1,0 +1,48 @@
+<html>
+  <body>
+    <label>City name:</label>
+    <input type="text" id="city-name-input" />
+    <button id="api-button">Call api</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  </body>
+</html>
+
+<script>
+  var apiKey = 'fda08e6f2262676224c6e924ecaec1fe';
+  var button = document.getElementById('api-button');
+  button.addEventListener('click', callWeatherApiFetch);
+
+  async function callWeatherApiAjax () {
+    const cityNameInput = document.getElementById('city-name-input');
+    const cityName = cityNameInput.value;
+    
+    const weatherData = await $.ajax({
+      type: "GET",
+      url: 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + apiKey
+    });
+
+    console.log(weatherData);
+  }
+
+  async function callWeatherApiFetch () {
+    const cityNameInput = document.getElementById('city-name-input');
+    const cityName = cityNameInput.value;
+    const response = await fetch('http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + apiKey);
+    const weatherData = await response.json();
+    console.log(weatherData);
+  }
+
+  async function callWeatherApiXhr () {
+    var cityNameInput = document.getElementById('city-name-input');
+    var cityName = cityNameInput.value;
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + apiKey);
+    xhr.send();
+    let weatherData;
+    xhr.onload = () => {
+      weatherData = xhr.response;
+    }
+  }
+  
+</script>
